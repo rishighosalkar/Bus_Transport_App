@@ -12,7 +12,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Schedule extends AppCompatActivity {
@@ -57,7 +60,7 @@ public class Schedule extends AppCompatActivity {
         searchView = (SearchView) findViewById(R.id.searchView);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
-        relativeLayout = (RelativeLayout) findViewById(R.id.parent_layout);
+        //relativeLayout = (RelativeLayout) findViewById(R.id.parent_layout);
         queue = Volley.newRequestQueue(this);
         ArrayList<JSONArray> bus_list=new ArrayList<JSONArray>();
 
@@ -66,25 +69,7 @@ public class Schedule extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                /*String url ="https://bus-xapi.herokuapp.com/api/busno/";
-                Toast.makeText(Schedule.this, query,Toast.LENGTH_SHORT).show();
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                        (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                // Display the first 500 characters of the response string.
-                                Log.i("Result", "successful");
-                                Toast.makeText(Schedule.this,"Bus found",Toast.LENGTH_SHORT).show();
-                                finish();
-                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(Schedule.this,"Bus not found",Toast.LENGTH_SHORT).show();
-                    }
-                });*/
                 AndroidNetworking.post("https://bus-xapi.herokuapp.com/api/busno/")
                         .addBodyParameter("bus_no", query)
                         .setTag("Bus_no")
@@ -101,25 +86,20 @@ public class Schedule extends AppCompatActivity {
 
                                     JSONArray list = li.getJSONArray(bus_no);
                                     int len = list.length();
-                                    String s = list.getString(0);
-
-                                    Toast.makeText(Schedule.this, s, Toast.LENGTH_SHORT).show();
-                                    for(int i=1;i<=len;i++)
+                                    System.out.println("Length is" + len);
+                                    String s[] = new String[len];
+                                    for(int i=0; i<len; i++)
                                     {
-                                        Log.i("Counter", "len");
                                         JSONArray bus = list.getJSONArray(i);
                                         String station_name = bus.getString(0);
-                                        CardView cardView = new CardView(Schedule.this);
-                                        TextView textView = new TextView(Schedule.this);
-                                        cardView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                                        textView.setLayoutParams(new CardView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                                        textView.setGravity(Gravity.CENTER_HORIZONTAL);
-                                        textView.setText(station_name);
-                                        //cardView.addView(textView);
-                                        relativeLayout.addView(textView);
-                                        Log.i("Bus stop Names", station_name);
+                                        s[i] = station_name;
+                                        //Log.i("Bus station name", s[i]);
                                     }
-                                    //JSONArray station = list.getJSONArray(1).getJSONArray(0);
+
+                                    ArrayAdapter adapter = new ArrayAdapter<String>(Schedule.this, R.layout.activity_listview, s);
+
+                                    ListView listView = (ListView)findViewById(R.id.parent_layout);
+                                    listView.setAdapter(adapter);
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
