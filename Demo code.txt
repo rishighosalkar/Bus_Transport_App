@@ -1,0 +1,18 @@
+<!--<Button
+        android:id="@+id/button"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:onClick="goToNext"
+        android:text="Button"
+        android:layout_marginTop="500dp"
+        tools:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:onClick="goToLogin"
+        android:text="Login"
+        android:layout_marginTop="300dp"
+
+        tools:layout_centerHorizontal="true" />-->
