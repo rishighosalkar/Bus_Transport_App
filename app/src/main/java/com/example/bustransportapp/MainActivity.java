@@ -166,6 +166,13 @@ public class MainActivity extends AppCompatActivity {
         redirectActivity(this, NavigationDrawer.class);
     }
 
+    public void ClickLostAndFound(View view){
+        Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.example.lostfound.Activities.MainActivity");
+        if (launchIntent != null) {
+            startActivity(launchIntent);//null pointer check in case package name was not found
+        }
+    }
+
     public void ClickLogout(View view){
         if(textView.getText() == "Login") {
             redirectActivity(this, LoginActivity.class);

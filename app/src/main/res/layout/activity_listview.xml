@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:padding="10px"
     android:textSize="50px"
-    android:textStyle="bold">
+    android:textStyle="bold"
+    >
 
 </TextView>

@@ -11,7 +11,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -100,6 +102,8 @@ public class Schedule extends AppCompatActivity {
 
                                     ListView listView = (ListView)findViewById(R.id.parent_layout);
                                     listView.setAdapter(adapter);
+                                    listView.setOnItemClickListener(Schedule.this::ClickBusStop);
+
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -133,4 +137,13 @@ public class Schedule extends AppCompatActivity {
             }
         });
     }
+
+    private void ClickBusStop(AdapterView<?> adapterView, View view, int i, long l) {
+        //adapterView.getSelectedItem().toString();
+        ListView listView = (ListView)findViewById(R.id.parent_layout);
+        Log.i("Clicked on bus stop", String.valueOf(adapterView.getItemAtPosition(i)));
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
 }
